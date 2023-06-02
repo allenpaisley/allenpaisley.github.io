@@ -22,9 +22,6 @@ menuItems.forEach((menuItem, index) => {
     });
 });
 
-videos[8].innerHTML = 'hey';
-videos[7].src = "vids/vid8.mp4";
-
 videos.forEach((video, index) => {
     console.log('video ' + [index]);
     videos[index].src = 'https://github.com/allenpaisley/allenpaisley.github.io/raw/main/vids/vid' + [index] + '.mp4';
