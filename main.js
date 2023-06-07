@@ -15,7 +15,7 @@ for (i = 0; i < howManyVids; i++) {
 
 videosArray.forEach((element, index) => {
     var newVid = document.createElement('video');
-    newVid.src = 'vids/' + videosArray[index];
+    newVid.src = 'https://github.com/allenpaisley/allenpaisley.github.io/raw/main/vids/' + videosArray[index];
     newVid.classList.add(`video`);
     newVid.controls = true;
     vidStrip.appendChild(newVid);
