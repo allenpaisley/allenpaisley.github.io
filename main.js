@@ -1,28 +1,165 @@
-var videos = document.querySelectorAll('video');
-var menuItems = document.querySelectorAll('.menu-item');
+const screen = document.querySelector('.screen');
+const vidStrip = document.querySelector('#vid-strip');
+const computedStyles = window.getComputedStyle(vidStrip);
+const transitionDuration = Math.round(parseFloat(computedStyles.transitionDuration) * 1000);
+let videosArray = [];
 
-function HideAll() {
-    videos.forEach((video, index) => {
-        videos[index].style.display = "none";
-    });
+const howManyVids = 7;
+var vidHeight = 405;
+
+// add vids to vid strip
+
+for (i = 0; i < howManyVids; i++) {
+    videosArray.push('vid' + i + '.mp4');
 };
 
-function PauseAll() {
-    videos.forEach((video, index) => {
-        videos[index].pause();
-    });
-};
+videosArray.forEach((element, index) => {
+    var newVid = document.createElement('video');
+    newVid.src = 'vids/' + videosArray[index];
+    newVid.classList.add(`video`);
+    newVid.controls = true;
+    vidStrip.appendChild(newVid);
+});
 
-menuItems.forEach((menuItem, index) => {
-    menuItem.addEventListener('click', () => {
-        HideAll();
-        PauseAll();
-        videos[index].style.display = "block";
-        videos[index].play();
+const videos = document.querySelectorAll(".video");
+let currentVidIndex = 0;
+let currentVid = videos[currentVidIndex - 1];
+
+// PREV + NEXT BUTTONS
+
+var vidStripStyle = window.getComputedStyle(vidStrip);
+let currentTop = parseFloat(vidStripStyle.top);
+
+
+var next = document.querySelector('#next');
+var prev = document.querySelector('#prev');
+
+prev.addEventListener('click', (e) => {
+    currentTop = parseFloat(vidStripStyle.top);
+
+    if (currentVidIndex == 0) return;
+    if (typeof currentVid !== 'undefined') {
+        pauseCurrentVid();
+    };
+    if ((currentTop == 0 || currentTop % vidHeight == 0) && currentTop < vidHeight) {
+        currentTop = (currentTop + vidHeight) + 'px';
+        vidStrip.style.top = currentTop;
+        currentVidIndex--
+        currentVid = videos[currentVidIndex - 1]
+        playVidWithDelay();
+    }
+});
+
+next.addEventListener('click', (e) => {
+    currentTop = parseFloat(vidStripStyle.top);
+    if (currentVidIndex == howManyVids) return;
+    if (typeof currentVid !== 'undefined') {
+        pauseCurrentVid();
+    };
+    if ((currentTop == 0 || currentTop % vidHeight == 0) && currentTop > (-vidHeight * (howManyVids - 1))) {
+        currentTop = (currentTop - vidHeight) + 'px';
+        vidStrip.style.top = currentTop;
+        currentVidIndex++
+        currentVid = videos[currentVidIndex - 1]
+        playVidWithDelay();
+    }
+});
+
+// create menu items
+
+var menu = document.querySelector('#menu');
+var menuItems = document.querySelector('#menu-items');
+
+videosArray.forEach((element, index) => {
+    var menuItem = document.createElement('div');
+    menuItem.innerHTML = 'video ' + (index + 1);
+    menuItem.classList.add('menu-item');
+    menuItems.appendChild(menuItem);
+});
+
+const allMenuItems = document.querySelectorAll('.menu-item');
+
+allMenuItems.forEach((element, index) => {
+    allMenuItems[index].addEventListener('click', (e) => {
+        if (typeof currentVid !== 'undefined') {
+            pauseCurrentVid();
+        };
+        currentTop = (index * -405) + 'px';
+        vidStrip.style.top = currentTop;
+        currentVidIndex = index + 1;
+        currentVid = videos[currentVidIndex - 1];
+        playVidWithDelay();
     });
 });
 
-videos.forEach((video, index) => {
-    console.log('video ' + [index]);
-    videos[index].src = 'https://github.com/allenpaisley/allenpaisley.github.io/raw/main/vids/vid' + [index] + '.mp4';
+// VIDEO CONTROLS
+
+// play+pause
+
+const playBtn = document.querySelector("#play-btn");
+const muteBtn = document.querySelector("#mute-btn");
+
+function pauseCurrentVid() {
+    currentVid.pause();
+    playBtn.innerHTML = `<svg width="14px" fill="currentColor" viewBox="0 0 210 210">
+    <path d="M179.07,105L30.93,210V0L179.07,105z" />
+</svg>`;
+};
+
+playBtn.addEventListener('click', playVid)
+
+function playVid() {
+    if (currentVidIndex == 0) return;
+    if (currentVidIndex > howManyVids) return;
+    if (currentVid.paused || currentVid.ended) {
+        currentVid.play();
+        playBtn.innerHTML = `<svg width="24px" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-width="1.5" d="M8.75 6.75V17.25" />
+        <path stroke="currentColor" stroke-width="1.5" d="M15.25 6.75V17.25" />
+    </svg>`;
+    } else {
+        pauseCurrentVid();
+    }
+};
+
+function playVidWithDelay() {
+    setTimeout(function() {
+        playVid();
+    }, transitionDuration);
+};
+
+// mute+unmute
+
+function muteAll() {
+    videos.forEach((element, index) => {
+        element.muted = true;
+        muteBtn.innerHTML = `<svg width="20px" viewBox="0 0 512 512">
+        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g id="icon" fill="currentColor" transform="translate(42.666667, 85.333333)">
+                <path d="M361.299413,341.610667 L328.014293,314.98176 C402.206933,233.906133 402.206933,109.96608 328.013013,28.8906667 L361.298133,2.26304 C447.910187,98.97536 447.908907,244.898347 361.299413,341.610667 Z M276.912853,69.77216 L243.588693,96.4309333 C283.38432,138.998613 283.38304,204.87488 243.589973,247.44256 L276.914133,274.101333 C329.118507,215.880107 329.118507,127.992107 276.912853,69.77216 Z M191.749973,1.42108547e-14 L80.8957867,87.2292267 L7.10542736e-15,87.2292267 L7.10542736e-15,257.895893 L81.0208,257.895893 L191.749973,343.35424 L191.749973,1.42108547e-14 L191.749973,1.42108547e-14 Z" id="Shape"></path>
+            </g>
+        </g>
+    </svg>`
+    });
+}
+
+function unMuteAll() {
+    videos.forEach((element, index) => {
+        element.muted = false;
+        muteBtn.innerHTML = `<svg fill="currentColor" width="30px" viewBox="0 0 1024 1024">
+        <path
+            d="M542.86 294.4L362.3 430a10.72 10.72 0 0 0-2.71 3.25H255.53v153.2h104.06a10.58 10.58 0 0 0 2.71 3.25l180.56 135.52a10.83 10.83 0 0 0 17.34-8.66v-413.5a10.83 10.83 0 0 0-17.34-8.66zM742.6 599.41L765 577l-67.2-67.2 67.2-67.2-22.4-22.4-67.2 67.2-67.2-67.2-22.4 22.4 67.2 67.2-67.2 67.2 22.4 22.4 67.2-67.2 67.2 67.2z" />
+    </svg>`;
+    });
+}
+
+muteBtn.addEventListener('click', (e) => {
+    if (currentVidIndex == 0) return;
+    if (currentVidIndex > howManyVids) return;
+    if (currentVid.muted) {
+        unMuteAll();
+    }
+    else {
+        muteAll();
+    }
 });

@@ -5,84 +5,60 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Allen Paisley</title>
+    <title>vert carousel</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="topgap"></div>
-    <div class="panel screen">
-        <div class="vids-container">
-            <div class="empty-screen">SELECT YOUR VIDEO!</div>
-            <video class="video" controls></video>
-            <video class="video" controls></video>
-            <video class="video" controls></video>
-            <video class="video" controls></video>
-            <video class="video" controls></video>
-            <video class="video" controls></video>
-            <video class="video" controls></video>
-            <video class="video" controls></video>
-            <video class="video" controls></video>
-        </div>
-    </div>
-    <div class="panel controls">
-        <div class="controls-track">
-            <button class="btn play-btn" title="play">
-                <svg width="24px" fill="currentColor" viewBox="0 0 210 210">
-                    <path d="M179.07,105L30.93,210V0L179.07,105z" />
-                </svg>
-            </button>
-            <button class="btn pause-btn" title="play">
-                <svg width="24px" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-width="1.5" d="M8.75 6.75V17.25"/>
-                    <path stroke="currentColor" stroke-width="1.5" d="M15.25 6.75V17.25"/>
-                </svg>
-            </button>
-            <button class="btn mute-btn" title="mute">
-                <svg fill="currentColor" width="24px" viewBox="0 0 1024 1024">
-                    <path d="M542.86 294.4L362.3 430a10.72 10.72 0 0 0-2.71 3.25H255.53v153.2h104.06a10.58 10.58 0 0 0 2.71 3.25l180.56 135.52a10.83 10.83 0 0 0 17.34-8.66v-413.5a10.83 10.83 0 0 0-17.34-8.66zM742.6 599.41L765 577l-67.2-67.2 67.2-67.2-22.4-22.4-67.2 67.2-67.2-67.2-22.4 22.4 67.2 67.2-67.2 67.2 22.4 22.4 67.2-67.2 67.2 67.2z"/>
-                    </svg>
-            </button>
-            <input type="range" class="volume" min="0" max="1" step="0.01" value="1" />
-            <div class="time">
-                <span class="current">0:00</span> / <span class="duration">0:00</span>
+    <div class="spacer"></div>
+    <main>
+        <div id="player">
+            <div class="screen">
+                <div id="screen-saver">Select your video!</div>
+                <div id="vid-strip">
+                    <!-- vids will populate here -->
+                </div>
+            </div>
+            <div id="control-panel">
+                <div class="progress-bar">
+                    progress bar will go here
+                    <div class="progress-bar-empty">
+                        <div class="progress-bar-filled"></div>
+                        <div class="progress-bar-thumb"></div>
+                    </div>
+                </div>
+
+                <div id="btns-track">
+                    <button class="btn" id="play-btn" title="play">
+                        <svg width="14px" fill="currentColor" viewBox="0 0 210 210">
+                            <path d="M179.07,105L30.93,210V0L179.07,105z" />
+                        </svg>
+                    </button>
+                    <button class="btn" id="mute-btn" title="mute">
+                        <svg fill="currentColor" width="30px" viewBox="0 0 1024 1024">
+                            <path
+                                d="M542.86 294.4L362.3 430a10.72 10.72 0 0 0-2.71 3.25H255.53v153.2h104.06a10.58 10.58 0 0 0 2.71 3.25l180.56 135.52a10.83 10.83 0 0 0 17.34-8.66v-413.5a10.83 10.83 0 0 0-17.34-8.66zM742.6 599.41L765 577l-67.2-67.2 67.2-67.2-22.4-22.4-67.2 67.2-67.2-67.2-22.4 22.4 67.2 67.2-67.2 67.2 22.4 22.4 67.2-67.2 67.2 67.2z" />
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="panel menu">
-        <div class="menu-screen">
-            <div class="menu-item">
-                CV Vision - Surf's Up! (Let's Trip)
+
+        <div class="spacer"></div>
+
+        <div id="menu">
+            <div id="btns">
+                <button id="prev">&uarr;</button>
+                <button id="next">&darr;</button>
+                <button id="next">&#128256;</button>
             </div>
-            <div class="menu-item">
-                Garagen Uwe - Perm
-            </div>
-            <div class="menu-item">
-                Fruit Distro Collective - Love Says I Am Everything
-            </div>
-            <div class="menu-item">
-                J Vague - Fire Fantasy
-            </div>
-            <div class="menu-item">
-                DEVOUR YOUR ENEMIES - LOVELOOP
-            </div>
-            <div class="menu-item">
-                Lord of Email - Lite Green Neon Bombs
-            </div>
-            <div class="menu-item">
-                Dandy Deniz - Change
-            </div>
-            <div class="menu-item">
-                race cars
-            </div>
-            <div class="menu-item">
-                mallgoth emo sad animation
-            </div>
-            <div class="menu-item">
-                J Vague - Fire Fantasy
+            <div id="menu-items">
+                <!-- menu items will populate here -->
             </div>
         </div>
-    </div>
+
+    </main>
 </body>
 <script src="main.js"></script>
+
 </html>

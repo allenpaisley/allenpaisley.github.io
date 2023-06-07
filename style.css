@@ -1,130 +1,137 @@
 * {
     margin: 0;
     padding: 0;
-    /* box-sizing: border-box; */
 }
 
 body {
-    background-color: aqua;
-
+    font-family: fantasy;
 }
 
-.topgap {
-    height: 80px;
+.spacer {
+    height: 30px;
 }
 
-.panel {
-    border: 3px solid #ddd;
-    border-style: outset; 
-    background-color: #ccc;
-}
-
-/* SCREEN */
-
-.screen {
-    width: 600px;
-    height: 355px;
-    margin: auto;
+main {
+    position: relative;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
 }
 
-.vids-container {
-    border: 3px solid #ddd;
-    border-style: inset;
-    width: 560px;
-    height: 315px;
+/* PLAYER */
+
+#player {
+    width: 720px;
+    border: 2px dotted blue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.empty-screen {
-    width: 560px;
-    height: 315px;
-    text-align: center;
-    padding: 100px;  
-    font-family: monospace;
-    font-size: 30px;
-    position: absolute;
-    box-sizing: border-box;
+.screen {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 405px;
+    padding: 0;
+    overflow: hidden;
+    justify-content: center;
+}
 
+#screen-saver {
+    position: absolute;
+    align-self: center;
+    justify-self: center;
+}
+
+#vid-strip {
+    position: relative;
+    width: 100%;
+    height: 405px;
+    top: 405px;
+    transition: top .6s ease-in-out;
 }
 
 video {
-    width: 560px;
-    height: 315px;
-    position: absolute;
-    display: none;
+    width: 100%;
+    height: 100%;
+    display: block;
+    padding: 0;
+    margin: 0;
 }
 
-/* CONTROLS */
-
-.controls {
-    width: 600px;
-    height: 70px;
-    margin: 0px auto;
-    font-family: monospace;
-    font-size: 15px;
-    overflow: hidden;
+.video {
+    padding: 0;
 }
 
-.controls-track {
-    margin: 10px 18px;
+
+/* CONTROL PANEL */
+
+#control-panel {
+    width: 100%;
+    height: 130px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: lightgray;
+    border: 2px solid black;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+#btns-track {
+    display: flex;
+    align-items: center;
 }
 
 .btn {
-    height: 50px;
+    position: relative;
     width: 50px;
-    border: 3px solid #ddd;
-    border-radius: 100%;
-    border-style: outset;   
-    cursor: pointer;
+    height: 50px;
+    margin: 5px;
 }
 
-.btn:active {
-    border-style: inset;   
-}
 
 /* MENU */
 
-.menu {
-    width: 600px;
-    height: 300px;
-    margin: 40px auto;
+#menu {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 30px;
+    width: 450px;
+    border: 2px dotted blue;
 }
 
-.menu-screen {
-    width: 560px;
-    height: 260px;
-    border: 3px solid #ddd;
-    border-style: inset;
-    margin: 20px auto;
-    background-color: white;
-    overflow-y: scroll;
+#btns {
+    width: 100%;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: auto auto auto;
 }
 
-.menu-screen::-webkit-scrollbar {
-    width: 18px;
+button {
+    position: relative;
+    height: 50px;
+    /* margin: 0 10px 0 10px; */
 }
 
-.menu-screen::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
-}
-
-.menu-screen::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 0px;
-    border: 3px solid #ddd;
-    border-style: outset;
-}
-
-.menu-screen::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
+#menu-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 30px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .menu-item {
-    font-family: monospace;
-    font-size: 15px;
-    background-color: transparent;
-    margin: 15px;
-    cursor: alias;
+    position: relative;
+    border: 1px solid black;
+    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
 }
