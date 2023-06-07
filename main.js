@@ -72,7 +72,7 @@ var menuItems = document.querySelector('#menu-items');
 
 videosArray.forEach((element, index) => {
     var menuItem = document.createElement('div');
-    menuItem.innerHTML = 'video ' + (index + 1);
+    menuItem.innerHTML = titles[index];
     menuItem.classList.add('menu-item');
     menuItems.appendChild(menuItem);
 });

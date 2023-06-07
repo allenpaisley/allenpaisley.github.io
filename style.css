@@ -100,8 +100,8 @@ video {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 30px;
-    width: 450px;
+    font-size: 20px;
+    width: 720px;
     border: 2px dotted blue;
 }
 
@@ -122,7 +122,6 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 30px;
     width: 100%;
     box-sizing: border-box;
 }
