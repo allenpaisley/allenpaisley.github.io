@@ -163,3 +163,37 @@ muteBtn.addEventListener('click', (e) => {
         muteAll();
     }
 });
+
+
+
+// fullscreen
+
+var fullscreen = document.querySelector("#fullscreen");
+var player = document.querySelector("#player");
+
+if (!document?.fullscreenEnabled) {
+    fullscreen.style.display = "none";
+};
+
+fullscreen.addEventListener("click", (e) => {
+    handleFullscreen();
+});
+
+function handleFullscreen() {
+    if (currentVidIndex == 0) return;
+    if (document.fullscreenElement !== null) {
+        document.exitFullscreen();
+        setFullscreenData(false);
+    } else {
+        player.requestFullscreen();
+        setFullscreenData(true);
+    }
+}
+
+function setFullscreenData(state) {
+    player.setAttribute("data-fullscreen", !!state);
+}
+
+document.addEventListener("fullscreenchange", (e) => {
+    setFullscreenData(!!document.fullscreenElement);
+});
