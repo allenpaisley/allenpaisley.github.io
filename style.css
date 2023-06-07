@@ -96,6 +96,57 @@ video {
     margin-left: auto;
 }
 
+/* sliders */
+
+
+.slider {
+    position: relative;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    box-sizing:content-box;
+}
+
+.track {
+    height: 10px;
+    border: 1px solid black;
+    background-color: lightgrey;
+    box-sizing:border-box
+}
+
+.track-fill {
+    width: 0;
+    height: 100%;
+    background-color: blue;
+}
+
+.thumb {
+    position: absolute;
+    width: 10px;
+    height: 20px;
+    border: 1px solid black;
+    background-color: darkgrey;
+}
+
+#prog-track {
+    width: 100%;
+}
+
+#prog-thumb {
+    background-color: pink;
+}
+
+#vol-track {
+    width: 200px;
+}
+
+#vol-thumb {
+    background-color: lightblue;
+}
+
+#vol-fill {
+    width: 100%;
+}
 
 /* MENU */
 

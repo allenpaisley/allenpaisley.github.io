@@ -112,6 +112,7 @@ function playVid() {
     if (currentVidIndex == 0) return;
     if (currentVidIndex > howManyVids) return;
     if (currentVid.paused || currentVid.ended) {
+        currentVid.volume = volLevel;
         currentVid.play();
         playBtn.innerHTML = `<svg width="24px" fill="none" viewBox="0 0 24 24">
         <path stroke="currentColor" stroke-width="1.5" d="M8.75 6.75V17.25" />
@@ -123,7 +124,7 @@ function playVid() {
 };
 
 function playVidWithDelay() {
-    setTimeout(function() {
+    setTimeout(function () {
         playVid();
     }, transitionDuration);
 };
@@ -164,7 +165,64 @@ muteBtn.addEventListener('click', (e) => {
     }
 });
 
+// volume slider
 
+const volTrack = document.querySelector("#vol-track");
+const volFill = document.querySelector("#vol-fill");
+const volThumb = document.querySelector("#vol-thumb");
+volThumb.style.left = volTrack.offsetWidth - volThumb.offsetWidth + `px`;
+const volThumbCenter = volThumb.offsetWidth / 2;
+let volLevel = 1;
+let volIsDragging = false;
+
+let maxX;
+let thumbStartX;
+let thumbOffsetX;
+let thumbX;
+
+volTrack.addEventListener(`mousedown`, volJump);
+function volJump(e) {
+    thumbX = e.offsetX;
+    volThumb.style.left = thumbX - volThumbCenter + 'px';
+    volFill.style.width = thumbX + `px`;
+    volIsDragging = true;
+    volStartDrag(e);
+    document.addEventListener(`mouseup`, volStopDrag);
+    volLevel = e.offsetX / volTrack.offsetWidth;
+    if (typeof currentVid !== 'undefined') {
+        currentVid.volume = volLevel;
+    };
+};
+
+volThumb.addEventListener(`mousedown`, volStartDrag);
+function volStartDrag(e) {
+    volIsDragging = true;
+    thumbStartX = e.clientX;
+    thumbOffsetX = volThumb.offsetLeft;
+    document.addEventListener(`mousemove`, volDrag);
+    document.addEventListener(`mouseup`, volStopDrag);
+};
+
+function volDrag(e) {
+    if (!volIsDragging) return;
+    maxX = volTrack.offsetWidth - volThumb.offsetWidth;
+    thumbX = e.clientX - thumbStartX + thumbOffsetX;
+    if (thumbX < 0) {
+        thumbX = 0;
+    } else if (thumbX > maxX) {
+        thumbX = maxX;
+    }
+    volThumb.style.left = thumbX + 'px';
+    volFill.style.width = thumbX + `px`;
+    volLevel = thumbX / volTrack.offsetWidth;
+    if (typeof currentVid !== 'undefined') {
+        currentVid.volume = volLevel;
+    }
+};
+
+function volStopDrag(e) {
+    volIsDragging = false;
+};
 
 // fullscreen
 
