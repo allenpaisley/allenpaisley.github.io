@@ -47,6 +47,7 @@ prev.addEventListener('click', (e) => {
         currentVidIndex--
         currentVid = videos[currentVidIndex - 1]
         playVidWithDelay();
+        getProgress();
     }
 });
 
@@ -62,6 +63,7 @@ next.addEventListener('click', (e) => {
         currentVidIndex++
         currentVid = videos[currentVidIndex - 1]
         playVidWithDelay();
+        getProgress();
     }
 });
 
@@ -89,10 +91,72 @@ allMenuItems.forEach((element, index) => {
         currentVidIndex = index + 1;
         currentVid = videos[currentVidIndex - 1];
         playVidWithDelay();
+        getProgress();
     });
 });
 
 // VIDEO CONTROLS
+
+// progress bar
+
+let maxX;
+let thumbStartX;
+let thumbOffsetX;
+let thumbX;
+
+const progTrack = document.querySelector("#prog-track");
+const progFill = document.querySelector("#prog-fill");
+const progThumb = document.querySelector("#prog-thumb");
+const progThumbCenter = progThumb.offsetWidth / 2;
+let progressTime = 0;
+
+function getProgress() {
+    currentVid.addEventListener('timeupdate', () => {
+        let percentage = (currentVid.currentTime / currentVid.duration) * 100;
+        progFill.style.width = `${percentage}%`;
+        progThumb.style.left = `${percentage}%`;
+    });
+}
+
+progTrack.addEventListener(`mousedown`, progJump);
+function progJump(e) {
+    progressTime = (e.offsetX / progTrack.offsetWidth) * currentVid.duration;
+    currentVid.currentTime = progressTime;
+    thumbX = e.offsetX;
+    progThumb.style.left = thumbX - progThumbCenter + 'px';
+    progFill.style.width = thumbX + `px`;
+    progIsDragging = true;
+    progStartDrag(e);
+    document.addEventListener(`mouseup`, progStopDrag);
+};
+
+progThumb.addEventListener(`mousedown`, progStartDrag);
+function progStartDrag(e) {
+    progIsDragging = true;
+    thumbStartX = e.clientX;
+    thumbOffsetX = progThumb.offsetLeft;
+    document.addEventListener(`mousemove`, progDrag);
+    document.addEventListener(`mouseup`, progStopDrag);
+};
+
+function progDrag(e) {
+    if (!progIsDragging) return;
+    maxX = progTrack.offsetWidth - progThumb.offsetWidth;
+    thumbX = e.clientX - thumbStartX + thumbOffsetX;
+    if (thumbX < 0) {
+        thumbX = 0;
+    } else if (thumbX > maxX) {
+        thumbX = maxX;
+    }
+    progThumb.style.left = thumbX + 'px';
+    progFill.style.width = thumbX + `px`;
+    progressTime = (thumbX / progTrack.offsetWidth) * video.duration;
+    currentVid.currentTime = progressTime;
+};
+
+function progStopDrag(e) {
+    progIsDragging = false;
+};
 
 // play+pause
 
@@ -174,11 +238,6 @@ volThumb.style.left = volTrack.offsetWidth - volThumb.offsetWidth + `px`;
 const volThumbCenter = volThumb.offsetWidth / 2;
 let volLevel = 1;
 let volIsDragging = false;
-
-let maxX;
-let thumbStartX;
-let thumbOffsetX;
-let thumbX;
 
 volTrack.addEventListener(`mousedown`, volJump);
 function volJump(e) {
