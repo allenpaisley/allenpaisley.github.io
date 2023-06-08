@@ -17,7 +17,7 @@ videosArray.forEach((element, index) => {
     var newVid = document.createElement('video');
     newVid.src = 'https://github.com/allenpaisley/allenpaisley.github.io/raw/main/vids/' + videosArray[index];
     newVid.classList.add(`video`);
-    newVid.controls = true;
+    newVid.controls = false;
     vidStrip.appendChild(newVid);
 });
 
@@ -25,18 +25,17 @@ const videos = document.querySelectorAll(".video");
 let currentVidIndex = 0;
 let currentVid = videos[currentVidIndex - 1];
 
-// PREV + NEXT BUTTONS
+// PREV + NEXT + SHUFFLE BUTTONS
 
-var vidStripStyle = window.getComputedStyle(vidStrip);
+const vidStripStyle = window.getComputedStyle(vidStrip);
 let currentTop = parseFloat(vidStripStyle.top);
 
-
-var next = document.querySelector('#next');
-var prev = document.querySelector('#prev');
+const next = document.querySelector('#next');
+const prev = document.querySelector('#prev');
+const shuffle = document.querySelector('#shuffle');
 
 prev.addEventListener('click', (e) => {
     currentTop = parseFloat(vidStripStyle.top);
-
     if (currentVidIndex == 0) return;
     if (typeof currentVid !== 'undefined') {
         pauseCurrentVid();
@@ -64,7 +63,23 @@ next.addEventListener('click', (e) => {
         currentVid = videos[currentVidIndex - 1]
         playVidWithDelay();
         getProgress();
+        console.log(`currentVidIndex is ` + currentVidIndex);
     }
+});
+
+shuffle.addEventListener('click', (e) => {
+    currentTop = parseFloat(vidStripStyle.top);
+    if (typeof currentVid !== 'undefined') {
+        pauseCurrentVid();
+    };
+    let randomInt = Math.floor(Math.random() * (howManyVids-1)) + 1;
+    console.log(randomInt);
+    currentTop = (currentTop - (vidHeight * randomInt)) + 'px';
+    vidStrip.style.top = currentTop;
+    currentVidIndex = randomInt;
+    currentVid = videos[currentVidIndex - 1]
+    playVidWithDelay();
+    getProgress();
 });
 
 // create menu items
@@ -103,6 +118,8 @@ let maxX;
 let thumbStartX;
 let thumbOffsetX;
 let thumbX;
+let progIsDragging = false;
+
 
 const progTrack = document.querySelector("#prog-track");
 const progFill = document.querySelector("#prog-fill");
@@ -111,6 +128,7 @@ const progThumbCenter = progThumb.offsetWidth / 2;
 let progressTime = 0;
 
 function getProgress() {
+    if (typeof currentVid == 'undefined') return;
     currentVid.addEventListener('timeupdate', () => {
         let percentage = (currentVid.currentTime / currentVid.duration) * 100;
         progFill.style.width = `${percentage}%`;
@@ -120,6 +138,7 @@ function getProgress() {
 
 progTrack.addEventListener(`mousedown`, progJump);
 function progJump(e) {
+    if (typeof currentVid == 'undefined') return;
     progressTime = (e.offsetX / progTrack.offsetWidth) * currentVid.duration;
     currentVid.currentTime = progressTime;
     thumbX = e.offsetX;
@@ -132,6 +151,7 @@ function progJump(e) {
 
 progThumb.addEventListener(`mousedown`, progStartDrag);
 function progStartDrag(e) {
+    if (typeof currentVid !== 'undefined')
     progIsDragging = true;
     thumbStartX = e.clientX;
     thumbOffsetX = progThumb.offsetLeft;
@@ -150,7 +170,7 @@ function progDrag(e) {
     }
     progThumb.style.left = thumbX + 'px';
     progFill.style.width = thumbX + `px`;
-    progressTime = (thumbX / progTrack.offsetWidth) * video.duration;
+    progressTime = (thumbX / progTrack.offsetWidth) * currentVid.duration;
     currentVid.currentTime = progressTime;
 };
 
