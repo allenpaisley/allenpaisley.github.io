@@ -23,7 +23,6 @@ videosArray.forEach((element, index) => {
 
 const videos = document.querySelectorAll(".video");
 let currentVidIndex = 0;
-console.log(`currentVidIndex is ` + currentVidIndex);
 let currentVid = videos[currentVidIndex - 1];
 
 // PREV + NEXT + SHUFFLE BUTTONS
@@ -53,17 +52,14 @@ prev.addEventListener('click', (e) => {
 
 next.addEventListener('click', (e) => {
     currentTop = parseFloat(vidStripStyle.top);
-    console.log(`currentTop is ` + currentTop);
     if (currentVidIndex == howManyVids) return;
     if (typeof currentVid !== 'undefined') {
         pauseCurrentVid();
     };
     if ((currentTop == 0 || currentTop % vidHeight == 0) && currentTop > (-vidHeight * (howManyVids - 1))) {
         currentTop = (currentTop - vidHeight) + 'px';
-        console.log(`currentTop is ` + currentTop);
         vidStrip.style.top = currentTop;
         currentVidIndex++
-        console.log(`currentVidIndex is ` + currentVidIndex);
         currentVid = videos[currentVidIndex - 1]
         playVidWithDelay();
         getProgress();
@@ -72,19 +68,14 @@ next.addEventListener('click', (e) => {
 
 shuffle.addEventListener('click', (e) => {
     currentTop = parseFloat(vidStripStyle.top);
-    console.log(`currentTop is ` + currentTop);
     if (typeof currentVid !== 'undefined') {
         pauseCurrentVid();
     };
     let randomInt = Math.floor(Math.random() * howManyVids) + 1;
     console.log(`randomInt is ` + randomInt);
     currentTop = (405 - (vidHeight * (randomInt))) + 'px';
-    console.log(`currentTop is ` + currentTop);
-
-    // console.log(`currentTop is ` + currentTop);
     vidStrip.style.top = currentTop;
     currentVidIndex = randomInt;
-    // console.log(`currentVidIndex is ` + currentVidIndex);
     currentVid = videos[currentVidIndex - 1]
     playVidWithDelay();
     getProgress();
@@ -245,8 +236,7 @@ function unMuteAll() {
     </svg>`;
     });
 }
-
-muteBtn.addEventListener('click', (e) => {
+function muteUnmute() {
     if (currentVidIndex == 0) return;
     if (currentVidIndex > howManyVids) return;
     if (currentVid.muted) {
@@ -255,7 +245,9 @@ muteBtn.addEventListener('click', (e) => {
     else {
         muteAll();
     }
-});
+}
+
+muteBtn.addEventListener('click', muteUnmute);
 
 // volume slider
 
@@ -263,6 +255,7 @@ const volTrack = document.querySelector("#vol-track");
 const volFill = document.querySelector("#vol-fill");
 const volThumb = document.querySelector("#vol-thumb");
 volThumb.style.left = volTrack.offsetWidth - volThumb.offsetWidth + `px`;
+console.log(`volThumb.offsetLeft is ` + volThumb.offsetLeft);
 const volThumbCenter = volThumb.offsetWidth / 2;
 let volLevel = 1;
 let volIsDragging = false;
