@@ -23,6 +23,7 @@ videosArray.forEach((element, index) => {
 
 const videos = document.querySelectorAll(".video");
 let currentVidIndex = 0;
+console.log(`currentVidIndex is ` + currentVidIndex);
 let currentVid = videos[currentVidIndex - 1];
 
 // PREV + NEXT + SHUFFLE BUTTONS
@@ -52,31 +53,38 @@ prev.addEventListener('click', (e) => {
 
 next.addEventListener('click', (e) => {
     currentTop = parseFloat(vidStripStyle.top);
+    console.log(`currentTop is ` + currentTop);
     if (currentVidIndex == howManyVids) return;
     if (typeof currentVid !== 'undefined') {
         pauseCurrentVid();
     };
     if ((currentTop == 0 || currentTop % vidHeight == 0) && currentTop > (-vidHeight * (howManyVids - 1))) {
         currentTop = (currentTop - vidHeight) + 'px';
+        console.log(`currentTop is ` + currentTop);
         vidStrip.style.top = currentTop;
         currentVidIndex++
+        console.log(`currentVidIndex is ` + currentVidIndex);
         currentVid = videos[currentVidIndex - 1]
         playVidWithDelay();
         getProgress();
-        console.log(`currentVidIndex is ` + currentVidIndex);
     }
 });
 
 shuffle.addEventListener('click', (e) => {
     currentTop = parseFloat(vidStripStyle.top);
+    console.log(`currentTop is ` + currentTop);
     if (typeof currentVid !== 'undefined') {
         pauseCurrentVid();
     };
-    let randomInt = Math.floor(Math.random() * (howManyVids-1)) + 1;
-    console.log(randomInt);
-    currentTop = (currentTop - (vidHeight * randomInt)) + 'px';
+    let randomInt = Math.floor(Math.random() * howManyVids) + 1;
+    console.log(`randomInt is ` + randomInt);
+    currentTop = (405 - (vidHeight * (randomInt))) + 'px';
+    console.log(`currentTop is ` + currentTop);
+
+    // console.log(`currentTop is ` + currentTop);
     vidStrip.style.top = currentTop;
     currentVidIndex = randomInt;
+    // console.log(`currentVidIndex is ` + currentVidIndex);
     currentVid = videos[currentVidIndex - 1]
     playVidWithDelay();
     getProgress();
@@ -152,7 +160,7 @@ function progJump(e) {
 progThumb.addEventListener(`mousedown`, progStartDrag);
 function progStartDrag(e) {
     if (typeof currentVid !== 'undefined')
-    progIsDragging = true;
+        progIsDragging = true;
     thumbStartX = e.clientX;
     thumbOffsetX = progThumb.offsetLeft;
     document.addEventListener(`mousemove`, progDrag);
