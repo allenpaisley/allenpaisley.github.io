@@ -121,36 +121,23 @@ allMenuItems.forEach((element, index) => {
 // timecode
 
 const timecode = document.querySelector(`#timecode`);
-timecode.style.color = (`red`);
-timecode.innerHTML = `hiiii`;
+
+setInterval(updateTimecode, 1000);
+
 function updateTimecode() {
     if (typeof currentVid == 'undefined') return;
-    let seconds = currentVid.currentTime;
-    convertTime(seconds);
-let timeString = convertTime(seconds);
-    let totalSeconds = currentVid.duration;
-    console.log(timeString);
-    timecode.innerHTML = timeString;
-}
-
-setInterval(updateTimecode, 2000);
-
-function convertTime(seconds) {
+    let seconds = Math.floor(currentVid.currentTime);
     let minutes = Math.floor(seconds / 60);
     let remainingSeconds = seconds % 60;
+    let formattedSeconds = remainingSeconds.toString().padStart(2, '0');
 
-    // Format the minutes and seconds as two digits
-    let formattedMinutes = ('0' + minutes).slice(-2);
-    let formattedSeconds = ('0' + remainingSeconds).slice(-2);
+    let totalSeconds = Math.floor(currentVid.duration);
+    let totalMinutes = Math.floor(totalSeconds / 60);
+    let totalRemainingSeconds = totalSeconds % 60;
+    let formattedTotalSeconds = totalRemainingSeconds.toString().padStart(2, '0');
 
-    return formattedMinutes + ':' + formattedSeconds;
-}
-
-let totalSeconds = 125;
-let timeString = convertTime(totalSeconds);
-
-console.log(timeString); // Output: 02:05
-
+    timecode.innerHTML = minutes + `:` + formattedSeconds + ` / ` + totalMinutes + `:` + formattedTotalSeconds;
+};
 
 
 // progress bar
@@ -173,7 +160,7 @@ function getProgress() {
         let percentage = (currentVid.currentTime / currentVid.duration) * 100;
         progFill.style.width = `${percentage}%`;
         progThumb.style.left = `${percentage}%`;
-        updateTimecode();
+        // updateTimecode();
     });
 }
 
