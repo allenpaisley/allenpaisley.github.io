@@ -21,7 +21,7 @@ main {
 /* PLAYER */
 
 #player {
-    width: 720px;
+    width: 100%;
     border: 2px dotted blue;
     display: flex;
     flex-direction: column;
@@ -104,14 +104,14 @@ video {
     margin: 10px;
     display: flex;
     align-items: center;
-    box-sizing:content-box;
+    box-sizing: content-box;
 }
 
 .track {
     height: 8px;
     border: 1px solid black;
     background-color: lightgrey;
-    box-sizing:border-box
+    box-sizing: border-box
 }
 
 .track-fill {

@@ -72,8 +72,11 @@ shuffle.addEventListener('click', (e) => {
         pauseCurrentVid();
     };
     let randomInt = Math.floor(Math.random() * howManyVids) + 1;
-    console.log(`randomInt is ` + randomInt);
-    currentTop = (405 - (vidHeight * (randomInt))) + 'px';
+    while (randomInt == currentVidIndex) {
+        randomInt = Math.floor(Math.random() * howManyVids) + 1;
+    };
+    console.log(`randomint is ` + randomInt);
+    currentTop = (vidHeight - (vidHeight * (randomInt))) + 'px';
     vidStrip.style.top = currentTop;
     currentVidIndex = randomInt;
     currentVid = videos[currentVidIndex - 1]
@@ -255,7 +258,6 @@ const volTrack = document.querySelector("#vol-track");
 const volFill = document.querySelector("#vol-fill");
 const volThumb = document.querySelector("#vol-thumb");
 volThumb.style.left = volTrack.offsetWidth - volThumb.offsetWidth + `px`;
-console.log(`volThumb.offsetLeft is ` + volThumb.offsetLeft);
 const volThumbCenter = volThumb.offsetWidth / 2;
 let volLevel = 1;
 let volIsDragging = false;

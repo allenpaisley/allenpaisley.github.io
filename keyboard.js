@@ -27,7 +27,6 @@ function volUp(e) {
     if (typeof currentVid !== 'undefined') {
         currentVid.volume = volLevel;
     };
-    console.log(`volLevel is ` + volLevel)
     volThumb.style.left = ((volTrack.offsetWidth - volThumb.offsetWidth) * volLevel) + `px`;
     volFill.style.width = volThumb.offsetLeft + `px`;
 };
@@ -38,7 +37,6 @@ function volDown(e) {
     if (typeof currentVid !== 'undefined') {
         currentVid.volume = volLevel;
     };
-    console.log(`volLevel is ` + volLevel)
     volThumb.style.left = ((volTrack.offsetWidth - volThumb.offsetWidth) * volLevel) + `px`;
     volFill.style.width = volThumb.offsetLeft + `px`;
 };
