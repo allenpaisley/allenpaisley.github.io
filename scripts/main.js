@@ -109,7 +109,7 @@ allMenuItems.forEach((element, index) => {
         if (typeof currentVid !== 'undefined') {
             pauseCurrentVid();
         };
-        currentTop = (index * -405) + 'px';
+        currentTop = (index * -vidHeight) + 'px';
         vidStrip.style.top = currentTop;
         currentVidIndex = index + 1;
         currentVid = videos[currentVidIndex - 1];
@@ -128,7 +128,6 @@ let thumbOffsetX;
 let thumbX;
 let progIsDragging = false;
 
-
 const progTrack = document.querySelector("#prog-track");
 const progFill = document.querySelector("#prog-fill");
 const progThumb = document.querySelector("#prog-thumb");
@@ -145,6 +144,7 @@ function getProgress() {
 }
 
 progTrack.addEventListener(`mousedown`, progJump);
+progTrack.addEventListener(`touchstart`, progJump);
 function progJump(e) {
     if (typeof currentVid == 'undefined') return;
     progressTime = (e.offsetX / progTrack.offsetWidth) * currentVid.duration;
@@ -155,22 +155,36 @@ function progJump(e) {
     progIsDragging = true;
     progStartDrag(e);
     document.addEventListener(`mouseup`, progStopDrag);
+    document.addEventListener(`touchend`, progStopDrag);
 };
 
 progThumb.addEventListener(`mousedown`, progStartDrag);
+progThumb.addEventListener(`touchstart`, progStartDrag);
 function progStartDrag(e) {
     if (typeof currentVid !== 'undefined')
         progIsDragging = true;
-    thumbStartX = e.clientX;
+    if (e.type === 'mousedown') {
+        thumbStartX = e.clientX;
+    } else if (e.type === 'touchstart') {
+        thumbStartX = e.touches[0].clientX;
+    }
     thumbOffsetX = progThumb.offsetLeft;
     document.addEventListener(`mousemove`, progDrag);
+    document.addEventListener(`touchmove`, progDrag);
     document.addEventListener(`mouseup`, progStopDrag);
+    document.addEventListener(`touchend`, progStopDrag);
 };
 
 function progDrag(e) {
     if (!progIsDragging) return;
     maxX = progTrack.offsetWidth - progThumb.offsetWidth;
-    thumbX = e.clientX - thumbStartX + thumbOffsetX;
+    let currentX;
+    if (e.type === 'mousemove') {
+        currentX = e.clientX;
+    } else if (e.type === 'touchmove') {
+        currentX = e.touches[0].clientX;
+    }
+    thumbX = currentX - thumbStartX + thumbOffsetX;
     if (thumbX < 0) {
         thumbX = 0;
     } else if (thumbX > maxX) {
