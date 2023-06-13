@@ -17,9 +17,27 @@ document.addEventListener('keydown', e => {
 });
 
 // ARROW KEYS 
-// UP+DOWN - INCREMENT VOLUME 
 
-// LEFT+RIGHT - SKIP 10 SECONDS BACKWARDS+ FORWARD
+document.addEventListener('keydown', e => {
+    if (e.code.startsWith('Arrow')) {
+        switch (e.code) {
+            case 'ArrowUp':
+                volUp(e);
+                break;
+            case 'ArrowDown':
+                volDown(e);
+                break;
+            case 'ArrowLeft':
+                skipBack(e);
+                break;
+            case 'ArrowRight':
+                skipFwd(e);
+                break;
+        }
+    }
+});
+
+// UP+DOWN - INCREMENT VOLUME 
 
 function volUp(e) {
     e.preventDefault();
@@ -41,23 +59,18 @@ function volDown(e) {
     volFill.style.width = volThumb.offsetLeft + `px`;
 };
 
-document.addEventListener('keydown', e => {
-    if (e.code.startsWith('Arrow')) {
-        switch (e.code) {
-            case 'ArrowUp':
-                volUp(e)
-                break;
-            case 'ArrowDown':
-                volDown(e)
-                break;
-            case 'ArrowLeft':
-                // Left arrow key was pressed
-                // Add your code here to handle the event
-                break;
-            case 'ArrowRight':
-                // Right arrow key was pressed
-                // Add your code here to handle the event
-                break;
-        }
-    }
-});
+// LEFT+RIGHT - SKIP 10 SECONDS BACKWARDS+ FORWARD
+
+function skipFwd(e) {
+    e.preventDefault();
+    if (typeof currentVid == 'undefined') return;
+    const currentTime = currentVid.currentTime;
+    currentVid.currentTime = currentVid.currentTime + 5;
+}
+
+function skipBack(e) {
+    e.preventDefault();
+    if (typeof currentVid == 'undefined') return;
+    const currentTime = currentVid.currentTime;
+    currentVid.currentTime = currentVid.currentTime - 5;
+}

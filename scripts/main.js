@@ -1,8 +1,6 @@
 const screen = document.querySelector('#screen');
 const screenHeight = screen.offsetHeight;
 const screenWidth = screen.offsetWidth;
-console.log(`screenWidth is ` + screenWidth);
-console.log(`screenHeight is ` + screenHeight);
 const vidStrip = document.querySelector('#vid-strip');
 vidStrip.style.height = screenHeight + `px`;
 vidStrip.style.top = screenHeight + `px`;
@@ -23,7 +21,7 @@ videosArray.forEach((element, index) => {
     var newVid = document.createElement('video');
     newVid.src = 'https://github.com/allenpaisley/allenpaisley.github.io/raw/main/vids/' + videosArray[index];
     newVid.classList.add(`video`);
-    newVid.controls = false;
+    newVid.controls = true;
     vidStrip.appendChild(newVid);
 });
 
@@ -118,7 +116,42 @@ allMenuItems.forEach((element, index) => {
     });
 });
 
-// VIDEO CONTROLS
+// CONTROL PANEL
+
+// timecode
+
+const timecode = document.querySelector(`#timecode`);
+timecode.style.color = (`red`);
+timecode.innerHTML = `hiiii`;
+function updateTimecode() {
+    if (typeof currentVid == 'undefined') return;
+    let seconds = currentVid.currentTime;
+    convertTime(seconds);
+let timeString = convertTime(seconds);
+    let totalSeconds = currentVid.duration;
+    console.log(timeString);
+    timecode.innerHTML = timeString;
+}
+
+setInterval(updateTimecode, 2000);
+
+function convertTime(seconds) {
+    let minutes = Math.floor(seconds / 60);
+    let remainingSeconds = seconds % 60;
+
+    // Format the minutes and seconds as two digits
+    let formattedMinutes = ('0' + minutes).slice(-2);
+    let formattedSeconds = ('0' + remainingSeconds).slice(-2);
+
+    return formattedMinutes + ':' + formattedSeconds;
+}
+
+let totalSeconds = 125;
+let timeString = convertTime(totalSeconds);
+
+console.log(timeString); // Output: 02:05
+
+
 
 // progress bar
 
@@ -140,6 +173,7 @@ function getProgress() {
         let percentage = (currentVid.currentTime / currentVid.duration) * 100;
         progFill.style.width = `${percentage}%`;
         progThumb.style.left = `${percentage}%`;
+        updateTimecode();
     });
 }
 
