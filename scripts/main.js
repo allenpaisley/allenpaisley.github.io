@@ -1,11 +1,17 @@
-const screen = document.querySelector('.screen');
+const screen = document.querySelector('#screen');
+const screenHeight = screen.offsetHeight;
+const screenWidth = screen.offsetWidth;
+console.log(`screenWidth is ` + screenWidth);
+console.log(`screenHeight is ` + screenHeight);
 const vidStrip = document.querySelector('#vid-strip');
+vidStrip.style.height = screenHeight + `px`;
+vidStrip.style.top = screenHeight + `px`;
 const computedStyles = window.getComputedStyle(vidStrip);
 const transitionDuration = Math.round(parseFloat(computedStyles.transitionDuration) * 1000);
 let videosArray = [];
 
 const howManyVids = 7;
-var vidHeight = 405;
+var vidHeight = screenHeight;
 
 // add vids to vid strip
 
@@ -75,7 +81,6 @@ shuffle.addEventListener('click', (e) => {
     while (randomInt == currentVidIndex) {
         randomInt = Math.floor(Math.random() * howManyVids) + 1;
     };
-    console.log(`randomint is ` + randomInt);
     currentTop = (vidHeight - (vidHeight * (randomInt))) + 'px';
     vidStrip.style.top = currentTop;
     currentVidIndex = randomInt;
@@ -86,8 +91,9 @@ shuffle.addEventListener('click', (e) => {
 
 // create menu items
 
-var menu = document.querySelector('#menu');
-var menuItems = document.querySelector('#menu-items');
+const menu = document.querySelector('#menu');
+const menuItems = document.querySelector('#menu-items');
+menu.style.width = screenWidth + `px`;
 
 videosArray.forEach((element, index) => {
     var menuItem = document.createElement('div');

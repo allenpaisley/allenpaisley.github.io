@@ -21,21 +21,27 @@ main {
 /* PLAYER */
 
 #player {
-    width: 100%;
     border: 2px dotted blue;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.screen {
+#screen {
     position: relative;
     display: flex;
-    width: 100%;
-    height: 405px;
+    width: 320px;
+    height: 180px;
     padding: 0;
     overflow: hidden;
     justify-content: center;
+}
+
+@media (min-width: 720px) {
+    #screen {
+        width: 720px;
+        height: 405px;
+    }
 }
 
 #screen-saver {
@@ -47,8 +53,6 @@ main {
 #vid-strip {
     position: relative;
     width: 100%;
-    height: 405px;
-    top: 405px;
     transition: top .6s ease-in-out;
 }
 
@@ -69,7 +73,6 @@ video {
 
 #control-panel {
     width: 100%;
-    height: 130px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -77,7 +80,6 @@ video {
     background-color: lightgray;
     border: 2px solid black;
     box-sizing: border-box;
-    padding: 10px;
 }
 
 #btns-track {
@@ -87,9 +89,10 @@ video {
 
 .btn {
     position: relative;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     margin: 5px;
+    padding: 5px;
 }
 
 #fullscreen {
@@ -156,8 +159,8 @@ video {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 20px;
-    width: 720px;
+    font-size: 13px;
+    /* width: 720px; */
     border: 2px dotted blue;
 }
 
