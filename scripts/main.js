@@ -19,9 +19,9 @@ for (i = 0; i < howManyVids; i++) {
 
 videosArray.forEach((element, index) => {
     var newVid = document.createElement('video');
-    newVid.src = 'https://github.com/allenpaisley/allenpaisley.github.io/raw/main/vids/' + videosArray[index];
+    newVid.src = 'vids/' + videosArray[index];
     newVid.classList.add(`video`);
-    newVid.controls = true;
+    newVid.controls = false;
     vidStrip.appendChild(newVid);
 });
 
@@ -49,6 +49,7 @@ prev.addEventListener('click', (e) => {
         vidStrip.style.top = currentTop;
         currentVidIndex--
         currentVid = videos[currentVidIndex - 1]
+        updateBanner();
         playVidWithDelay();
         getProgress();
     }
@@ -65,6 +66,7 @@ next.addEventListener('click', (e) => {
         vidStrip.style.top = currentTop;
         currentVidIndex++
         currentVid = videos[currentVidIndex - 1]
+        updateBanner();
         playVidWithDelay();
         getProgress();
     }
@@ -83,6 +85,7 @@ shuffle.addEventListener('click', (e) => {
     vidStrip.style.top = currentTop;
     currentVidIndex = randomInt;
     currentVid = videos[currentVidIndex - 1]
+    updateBanner();
     playVidWithDelay();
     getProgress();
 });
@@ -111,12 +114,27 @@ allMenuItems.forEach((element, index) => {
         vidStrip.style.top = currentTop;
         currentVidIndex = index + 1;
         currentVid = videos[currentVidIndex - 1];
+        updateBanner();
         playVidWithDelay();
         getProgress();
     });
 });
 
 // CONTROL PANEL
+
+// title banner
+
+var titleText = document.querySelector('#title-text');
+
+function updateBanner() {
+    titleText.innerHTML = "";
+    for (i = 0; i < 100; i++) {
+        titleText.innerHTML += titles[currentVidIndex] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        titleText.innerHTML += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+    };
+}
+
+updateBanner();
 
 // timecode
 
@@ -366,7 +384,7 @@ function handleFullscreen() {
         document.exitFullscreen();
         setFullscreenData(false);
     } else {
-        player.requestFullscreen();
+        currentVid.requestFullscreen();
         setFullscreenData(true);
     }
 }

@@ -7,5 +7,5 @@ const titles = [
     `Lord of Email - Lite Green Neon Bombs`,
     `Dandy Deniz - Change`,
     `race cars`,
-    `mallgoth emo sad animation`,
+    // `mallgoth emo sad animation`,
 ];
